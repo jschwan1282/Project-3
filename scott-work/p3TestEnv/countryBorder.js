@@ -24,6 +24,7 @@ function chooseColor(country) {
   }
 };
 
+// THIS WORKS GREAT 
 // Grabbing our GeoJSON data..
 d3.json(link, function(data) {
   console.log(data);
@@ -72,11 +73,16 @@ d3.json(link, function(data) {
     }
   }).addTo(map);
 });
+// THIS WORKS GREAT
+
+
 // d3.json(link, function(data) {
 //   console.log(data);
 //   // Creating a GeoJSON layer with the retrieved data
 //   L.geoJson(data).addTo(map);
 // });
+
+// Testing to see if the above will work with csv data below:
 
 var data2000 = "data2000.csv";
 

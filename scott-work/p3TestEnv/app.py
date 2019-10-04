@@ -26,7 +26,7 @@ def data():
 @app.route("/")
 def welcome():
     return (
-        f"Welcome to Hell<br/>"
+        f"Welcome to Class Stuff<br/>"
         f"Available Routes:<br/>"
         f"/data"
     )

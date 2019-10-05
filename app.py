@@ -7,20 +7,22 @@ from dateutil.relativedelta import relativedelta
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String
+
 
 from flask import Flask, jsonify
 
-# Database Setup
-POSTGRES = {
-    'user': 'postgres',
-    'pw': 'postgres',
-    'db': 'malria_db',
-    'host': 'localhost',
-    'port': '5432',
-}
+# # Database Setup
+# POSTGRES = {
+#     'user': 'postgres',
+#     'pw': 'postgres',
+#     'db': 'malria_db',
+#     'host': 'localhost',
+#     'port': '5432',
+# }
 
-engine = create_engine("'postgresql://%(user)s:\
-%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES")
+engine = create_engine("postgresql://postgres:postgres@localhost:5432/malaria_db")
 
 
 
@@ -31,7 +33,7 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 
 # references to each table
-malaria_db = Base.classes.malaria_db
+malaria_db = Base.classes.table_000817
 
 # create instance of Flask app
 app = Flask(__name__)
@@ -90,8 +92,8 @@ def api():
         malaria_dict[total_deaths] = total_deaths
         malaria_dict[populuation] = populuation
         malaria_dict[perc_of_pop_w_malaria] = perc_of_pop_w_malaria
-        malaria.append(malaria_dict)
-    return jsonify(precip)
+        malaria_db.append(malaria_dict)
+    return jsonify(malaria_db)
 
 
 

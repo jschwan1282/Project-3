@@ -25,18 +25,6 @@ function chooseColor(country) {
   }
 };
 
-// function gdpColor(gdp) {
-//     switch(gdp) {
-//         case gdp > 0:
-//             return "yellow";
-//         case gdp = 0:
-//             return "black";
-//         default:
-//             return "aqua";
-//     }
-// };
-
-
 
 // Link to geojson file
 var link = "../countries.geojson";
@@ -60,9 +48,69 @@ d3.json(link, function(geoData) {
 
         // Trying to make a function that will grab csv/flask data based on a name
         function matchedNames(country) {
-            
-        }
+            var csvCountries = []
+            for (var csvIndex = 0; csvIndex < data2000.length; csvIndex++) {
+                var csvCountryNames = data2000[csvIndex];
+                csvCountries.push(csvCountryNames);
+                var countryName = csvCountries[csvIndex]["country"];
+                var countryDeaths = csvCountries[csvIndex]["deaths"];
+                // console.log(`${countryName},${countryDeaths}`);
+                // for this part when we need to filter I think i can just add an and statement to the 
+                // countries. e.g. index == country & column year == 2000 or 2008 etc.
+                if (csvCountries[csvIndex]["country"] == country) {
+                    // change the == Brazil to whatever the argument will be in the function
+                    // console.log(`${csvCountries[csvIndex]["country"]}, ${csvCountries[csvIndex]["deaths"]}`)
+                    return( `<h1>${csvCountries[csvIndex]["country"]}:${csvCountries[csvIndex]["gdp_per_capita"]}</h1> <hr>\n
+                             <h2>Total Deaths: ${csvCountries[csvIndex]["deaths"]}</h2> <hr>\n
+                             <h2>Deaths Under 5: ${csvCountries[csvIndex]["under_5"]}</h2>\n
+                             <h2>Deaths 5-14: ${csvCountries[csvIndex]["5_14"]}</h2>\n
+                             <h2>Deaths 15-49: ${csvCountries[csvIndex]["15_49"]}</h2>\n
+                             <h2>Deaths 50-69: ${csvCountries[csvIndex]["50_69"]}</h2>\n
+                             <h2>Deaths Over 70: ${csvCountries[csvIndex]["over_70"]}</h2>\n`);
+                } 
+                // else {
+                //     return(`<h1>Nothing Was Returned<h1>`);
+                // };
+            };
+        };
 
+        function gdpColor(country) {
+            var csvGDP = [];
+            for (var csvIndex = 0; csvIndex < data2000.length; csvIndex++) {
+                var csvCountryData = data2000[csvIndex];
+                csvGDP.push(csvCountryData);
+                if (csvGDP[csvIndex]["country"] == country) {
+                    return(`${csvCountries[csvIndex]["gdp_per_capita"]}`)
+                    // I think I need to add another if statement here that grabs the 
+                };
+            };
+        };
+        // this function to be used for GDP coloring
+        function getColor(d) {
+            // return d > 50000 ? '#FF0000' :
+            //        d > 25000 ? '#FF3300' :
+            //        d > 20000  ? '#ff6600' :
+            //        d > 10000  ? '#ff9900' :
+            //        d > 8000   ? '#FFCC00' :
+            //        d > 5000   ? '#7FFF00' :
+            //        d > 2500   ? '#ccff00' :
+            //        d > 1000   ? '#99ff00' :
+            //        d > 500   ? '#66ff00' :
+            //                 //   '#33ff00'; // put countries that don't appear as white
+            //                   '#FFFFFF'; // put countries that don't appear as white
+            return d > 50000 ? '#66ff00' :
+                   d > 25000 ? '#99ff00' :
+                   d > 20000  ? '#ccff00' :
+                   d > 10000  ? '#7FFF00' :
+                   d > 8000   ? '#FFCC00' :
+                   d > 5000   ? '#ff9900' :
+                   d > 2500   ? '#ff6600' :
+                   d > 1000   ? '#FF3300' :
+                   d > 500   ? '#FF0000' :
+                            //   '#33ff00'; // put countries that don't appear as white
+                              '#FFFFFF'; // put countries that don't appear as white
+
+        };
 
 
 
@@ -82,9 +130,16 @@ d3.json(link, function(geoData) {
         for (var csvIndex = 0; csvIndex < data2000.length; csvIndex++) {
             var csvCountryNames = data2000[csvIndex];
             csvCountries.push(csvCountryNames);
-            console.log(csvCountries[csvIndex]["country"]);
+            var countryName = csvCountries[csvIndex]["country"];
+            var countryDeaths = csvCountries[csvIndex]["deaths"];
+            // console.log(`${countryName},${countryDeaths}`);
+            if (csvCountries[csvIndex]["country"] == "Brazil") {
+                // change the == Brazil to whatever the argument will be in the function
+                console.log(`${csvCountries[csvIndex]["country"]}, ${csvCountries[csvIndex]["deaths"]}`)
+            }
+            // console.log(csvCountries[csvIndex]["country"]);
         };
-        console.log(csvCountries[0])
+        // console.log(csvCountries[0])
         // -------------------------------------------------------
 
         // Trying to combine the country names and csv country names together
@@ -96,8 +151,8 @@ d3.json(link, function(geoData) {
             style: function(feature) {
                 return{
                     color: "white",
-                    fillColor: chooseColor(feature.properties.ADMIN),
-                    // fillColor: gdpColor(gdp),
+                    // fillColor: chooseColor(feature.properties.ADMIN),
+                    fillColor: getColor(gdpColor(feature.properties.ADMIN)),
                     fillOpacity: 0.5,
                     weight: 1.5
                 };
@@ -120,7 +175,9 @@ d3.json(link, function(geoData) {
                         map.fitBounds(event.target.getBounds());
                     }
                 });
-                layer.bindPopup("<h1>" + feature.properties.ISO_A3 + "</h1> <hr> <h2>" + feature.properties.ADMIN + "</h2>");
+                // layer.bindPopup("<h1>" + feature.properties.ISO_A3 + "</h1> <hr> <h2>" + feature.properties.ADMIN + "</h2>");
+                layer.bindPopup(matchedNames(feature.properties.ADMIN));
+                // This above is trying to do the function that will return data based on 
                 // function in here for bindpop that will take in the
                 // create a function in here that pulls a name of a country
                 // that function

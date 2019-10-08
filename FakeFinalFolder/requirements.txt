@@ -1,0 +1,5 @@
+python
+flask
+sqlite
+sqlalchemy_utils
+psycopg2

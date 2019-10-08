@@ -34,8 +34,9 @@ var link = "static/countries.geojson";
 d3.json(link, function(geoData) {
     console.log(geoData);
     // This csv will just be replaced by the flask link to the csv
-    d3.json("http://localhost:5000/api", function(error, data2000) { 
-    // d3.csv("data2000.csv", function(error, data2000) {
+    // d3.json("http://localhost:5000/api", function(error, data2000) {  // this pull to the flask endpoint isnt working
+    d3.json('/api', function(error, data2000) {  // try this pull to flask endpoint
+    // d3.csv("data2000.csv", function(error, data2000) { // this is the test with csv stuff
         console.log(data2000);
         // -----------------Not working--------------------------
         // var gdp = data2000.forEach(function(country) {

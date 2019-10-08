@@ -1,0 +1,30 @@
+body {
+    background: #a0c5cc;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .navbar {
+    padding: 5px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+
+  .btn {
+    color: white;
+    background: darkred;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .btn:hover {
+    background-color: rgb(17, 136, 126);
+    color: white;
+  }
+
+  .jumbotron {
+    background-image: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/colorful-watercolor-map-of-the-world-irina-sztukowski.jpg);
+    background-repeat: repeat;
+    background-blend-mode: soft-light;
+  }

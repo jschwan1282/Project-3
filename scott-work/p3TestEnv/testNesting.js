@@ -27,16 +27,14 @@ function chooseColor(country) {
 
 
 // Link to geojson file
-var link = "static/countries.geojson";
+var link = "../countries.geojson";
 
 // Try to get csv data to print within the d3.geojson
 
 d3.json(link, function(geoData) {
     console.log(geoData);
-    // This csv will just be replaced by the flask link to the csv
-    // d3.json("http://localhost:5000/api", function(error, data2000) {  // this pull to the flask endpoint isnt working
-    d3.json('/api', function(error, data2000) {  // try this pull to flask endpoint
-    // d3.csv("data2000.csv", function(error, data2000) { // this is the test with csv stuff
+    // This csv will just be replaced by the flask link to the csv 
+    d3.csv("data2000.csv", function(error, data2000) {
         console.log(data2000);
         // -----------------Not working--------------------------
         // var gdp = data2000.forEach(function(country) {

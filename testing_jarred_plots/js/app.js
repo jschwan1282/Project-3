@@ -59,12 +59,12 @@ d3.csv("/data/cleaned_17.csv").then(function(DoTheThing) {
   
     // circle attributes
     chartGroup.selectAll("circle")
-        .data(DoTheThing)
+        .data(DoTheThing.filter(d => d.total_deaths > 100))
         .enter()
         .append("circle")
         .attr("cx", d => scalex(d.total_deaths))
         .attr("cy", d => scaley(d.gdp_per_capita))
-        .attr("r", 18)
+        .attr("r", 8)
         .attr("fill", "coral")
         .attr("opacity", ".7");
 
@@ -74,7 +74,7 @@ d3.csv("/data/cleaned_17.csv").then(function(DoTheThing) {
         .enter()
         .append("text")
         .classed("text-circles",true)
-        .text(d => d.code)
+        // .text(d => d.code)
         .attr("font-weight", "bold")
         .attr("x", d => scalex(d.total_deaths))
         .attr("y", d => scaley(d.gdp_per_capita))

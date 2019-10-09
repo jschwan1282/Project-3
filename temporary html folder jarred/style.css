@@ -35,7 +35,9 @@ body {
   .jumbotron {
     background-image: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/colorful-watercolor-map-of-the-world-irina-sztukowski.jpg);
     background-repeat: repeat;
-    background-blend-mode: soft-light;
+    background-blend-mode: lighten;
+    font-weight: bold;
+    outline-color: white;
     border: 1px solid black;
     box-shadow: 10px 10px 5px grey;
   }

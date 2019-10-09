@@ -76,6 +76,7 @@ def api():
         malaria_dict["total_deaths"] = total_deaths
         malaria_dict["population"] = population
         malaria_dict["perc_of_pop_w_malaria"] = perc_of_pop_w_malaria
+        malaria_dict["gdp_per_capita"] = gdp_per_capita
         malaria_db.append(malaria_dict)
     return jsonify(malaria_db)
 

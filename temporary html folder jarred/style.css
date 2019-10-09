@@ -9,6 +9,8 @@ body {
     margin-bottom: 20px;
     margin-top: 10px;
     border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 10px 10px 5px grey;
   }
 
   .btn {
@@ -23,8 +25,17 @@ body {
     color: white;
   }
 
+  .frontpagepics {
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid black;
+    box-shadow: 10px 10px 5px grey;
+  }
+
   .jumbotron {
     background-image: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/colorful-watercolor-map-of-the-world-irina-sztukowski.jpg);
     background-repeat: repeat;
     background-blend-mode: soft-light;
+    border: 1px solid black;
+    box-shadow: 10px 10px 5px grey;
   }

@@ -23,7 +23,7 @@ Table_000817 = Base.classes.table_000817
 app = Flask(__name__)
 
 # create route that renders index.html template
-@app.route("/home")
+@app.route("/index")
 def home():
     return render_template("home.html")
 
@@ -31,6 +31,11 @@ def home():
 @app.route("/main")
 def main():
     return render_template("main.html")
+
+# create route that renders index.html template
+@app.route("/main2")
+def main2():
+    return render_template("main2.html")
 
 # create route that renders index.html template
 @app.route("/plots")

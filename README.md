@@ -1,11 +1,11 @@
 
- **Project 3**       **The Malaria Project **   
+ # **Project 3**       **The Malaria Project **   
  
- ![GitHub Logo](Users/arunima_menon/Desktop/malaria bacteria.jpg)
-Format: ![Alt Text](url)
+ !(/Users/arunima_menon/Desktop/Project-3/Mosquito.png)
+Format: ![Alt Text](./Mosquito.png)
 
-![GitHub Logo](/Users/arunima_menon/Desktop/ovale.jpg)
-Format: ![Alt Text](url)
+!(./ovale.jpg)
+Format: ![Alt Text](.ovale.jpg)
 
 ##Inspiration
 

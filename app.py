@@ -23,7 +23,7 @@ Table_000817 = Base.classes.table_000817
 app = Flask(__name__)
 
 # create route that renders index.html template
-@app.route("/home")
+@app.route("/index")
 def home():
     return render_template("home.html")
 
@@ -31,6 +31,11 @@ def home():
 @app.route("/main")
 def main():
     return render_template("main.html")
+
+# create route that renders index.html template
+@app.route("/main2")
+def main2():
+    return render_template("main2.html")
 
 # create route that renders index.html template
 @app.route("/plots")
@@ -55,7 +60,7 @@ def api():
         Table_000817.age_50_69,
         Table_000817.over_70,
         Table_000817.total_deaths,
-        Table_000817.populuation,
+        Table_000817.population,
         Table_000817.perc_of_pop_w_malaria,
         Table_000817.gdp_per_capita).all()
 
@@ -63,7 +68,7 @@ def api():
 
     # Create a dictionary from the row data and append to a list
     malaria_db = []
-    for country, code, year, under_5, age_5_14, age_15_49, age_50_69, over_70, total_deaths, populuation, perc_of_pop_w_malaria, gdp_per_capita in results:
+    for country, code, year, under_5, age_5_14, age_15_49, age_50_69, over_70, total_deaths, population, perc_of_pop_w_malaria, gdp_per_capita in results:
         malaria_dict = {}
         malaria_dict["country"] = country
         malaria_dict["code"] = code
@@ -74,8 +79,9 @@ def api():
         malaria_dict["age_50_69"] = age_50_69
         malaria_dict["over_70"] = over_70
         malaria_dict["total_deaths"] = total_deaths
-        malaria_dict["populuation"] = populuation
+        malaria_dict["population"] = population
         malaria_dict["perc_of_pop_w_malaria"] = perc_of_pop_w_malaria
+        malaria_dict["gdp_per_capita"] = gdp_per_capita
         malaria_db.append(malaria_dict)
     return jsonify(malaria_db)
 

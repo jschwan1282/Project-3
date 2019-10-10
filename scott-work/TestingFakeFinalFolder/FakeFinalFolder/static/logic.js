@@ -40,18 +40,19 @@ var map2017 = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?
     accessToken: API_KEY
 });
 
+
 // -- new stuff from 10.8 end
 
 // Choose Color
-function chooseColor(country) {
-  switch(country) {
-    case "Afghanistan":
-      return "yellow";
-    default:
-      // what the default color will be 
-      return "aqua";
-  }
-};
+// function chooseColor(country) {
+//   switch(country) {
+//     case "Afghanistan":
+//       return "yellow";
+//     default:
+//       // what the default color will be 
+//       return "aqua";
+//   }
+// };
 
 
 // Link to geojson file
@@ -89,77 +90,100 @@ d3.json(link, function(geoData) {
         console.log(year2008);
         console.log(year2017);
 
-        // testing stuff 10.8 end + fil
-
-
     
         // Trying to make a function that will grab csv/flask data based on a name
-        function matchedNames(country) {
+        // Testing Functions with another parameter -- START 
+        function matchedNames(data, country) {
             var csvCountries = []
-            for (var csvIndex = 0; csvIndex < data2000.length; csvIndex++) {
-                var csvCountryNames = data2000[csvIndex];
+            for (var csvIndex = 0; csvIndex < data.length; csvIndex++) {
+                var csvCountryNames = data[csvIndex];
                 csvCountries.push(csvCountryNames);
-                var countryName = csvCountries[csvIndex]["country"];
-                var countryDeaths = csvCountries[csvIndex]["deaths"];
-                // console.log(`${countryName},${countryDeaths}`);
-                // for this part when we need to filter I think i can just add an and statement to the 
-                // countries. e.g. index == country & column year == 2000 or 2008 etc.
                 if (csvCountries[csvIndex]["country"] == country) {
-                    // change the == Brazil to whatever the argument will be in the function
-                    // console.log(`${csvCountries[csvIndex]["country"]}, ${csvCountries[csvIndex]["deaths"]}`)
-                    return( `<h1>${csvCountries[csvIndex]["country"]}:${csvCountries[csvIndex]["gdp_per_capita"]}</h1> <hr>\n
+                    return( `<h1><p style="text-align:center;">${csvCountries[csvIndex]["country"]}: ${csvCountries[csvIndex]["year"]}</p></h1>\n
+                             <h2>GDP: ${csvCountries[csvIndex]["gdp_per_capita"]}</h2> <hr>\n
                              <h2>Total Deaths: ${csvCountries[csvIndex]["total_deaths"]}</h2> <hr>\n
                              <h2>Deaths Under 5: ${csvCountries[csvIndex]["under_5"]}</h2>\n
                              <h2>Deaths 5-14: ${csvCountries[csvIndex]["age_5_14"]}</h2>\n
                              <h2>Deaths 15-49: ${csvCountries[csvIndex]["age_15_49"]}</h2>\n
                              <h2>Deaths 50-69: ${csvCountries[csvIndex]["age_50_69"]}</h2>\n
                              <h2>Deaths Over 70: ${csvCountries[csvIndex]["over_70"]}</h2>\n`);
-                } 
-                // else {
-                //     return(`<h1>Nothing Was Returned<h1>`);
-                // };
+                }; 
             };
         };
 
-        function gdpColor(country) {
+        function gdpColor(data, country) {
             var csvGDP = [];
-            for (var csvIndex = 0; csvIndex < data2000.length; csvIndex++) {
-                var csvCountryData = data2000[csvIndex];
+            for (var csvIndex = 0; csvIndex < data.length; csvIndex++) {
+                var csvCountryData = data[csvIndex];
                 csvGDP.push(csvCountryData);
                 if (csvGDP[csvIndex]["country"] == country) {
-                    return(`${csvCountries[csvIndex]["gdp_per_capita"]}`)
-                    // I think I need to add another if statement here that grabs the 
+                    // return(`${csvCountries[csvIndex]["gdp_per_capita"]}`)
+                    return(`${csvGDP[csvIndex]["gdp_per_capita"]}`)
+
                 };
             };
         };
-        // this function to be used for GDP coloring
+
         function getColor(d) {
-            // return d > 50000 ? '#FF0000' :
-            //        d > 25000 ? '#FF3300' :
-            //        d > 20000  ? '#ff6600' :
-            //        d > 10000  ? '#ff9900' :
-            //        d > 8000   ? '#FFCC00' :
-            //        d > 5000   ? '#7FFF00' :
-            //        d > 2500   ? '#ccff00' :
-            //        d > 1000   ? '#99ff00' :
-            //        d > 500   ? '#66ff00' :
-            //                 //   '#33ff00'; // put countries that don't appear as white
-            //                   '#FFFFFF'; // put countries that don't appear as white
             return d > 50000 ? '#66ff00' :
-                   d > 25000 ? '#99ff00' :
-                   d > 20000  ? '#ccff00' :
-                   d > 10000  ? '#7FFF00' :
+                   d > 25000 ? '#7FFF00' :
+                   d > 20000  ? '#99ff00' :
+                   d > 10000  ? '#ccff00' :
                    d > 8000   ? '#FFCC00' :
                    d > 5000   ? '#ff9900' :
                    d > 2500   ? '#ff6600' :
                    d > 1000   ? '#FF3300' :
                    d > 500   ? '#FF0000' :
-                            //   '#33ff00'; // put countries that don't appear as white
                               '#FFFFFF'; // put countries that don't appear as white
 
         };
 
+        // this is a color function specifically for deaths
+        function deathsColor(d) {
+            return d > 20000  ? '#FF0000' :
+                   d > 10000  ? '#ff4400' :
+                   d > 5000   ? '#ff6a00' :
+                   d > 2500   ? '#ff9900' :
+                   d > 500   ? '#ffdd00' :
+                   d > 100   ? '#f2ff00' :
+                   d > 50   ?   '#7bff00':
+                              '#FFFFFF'; // put countries that don't appear as white
 
+        };
+        // Testing Functions with another parameter -- END 
+
+        // Testing Circle Function with Deaths -- START     
+        // function circles(data, country) {
+        //     circleList = [];
+        //     for (var csvIndex = 0; csvIndex < data.length; csvIndex++) {
+        //         var countryDeaths = data[csvIndex];
+        //         circleList.push(countryDeaths);
+        //         if (circleList[csvIndex]["country"] == country) {
+        //             return(`${circleList[csvIndex]["total_deaths"]}`)
+        //         }
+        //     }
+        // }
+        function totalDeaths(data, country) {
+            var csvCountries = []
+            for (var csvIndex = 0; csvIndex < data.length; csvIndex++) {
+                var csvCountryNames = data[csvIndex];
+                csvCountries.push(csvCountryNames);
+                if (csvCountries[csvIndex]["country"] == country) {
+                    return( `${csvCountries[csvIndex]["total_deaths"]}`);
+                }; 
+            };
+        };
+        function giveName(data, country) {
+            var csvCountries = []
+            for (var csvIndex = 0; csvIndex < data.length; csvIndex++) {
+                var csvCountryNames = data[csvIndex];
+                csvCountries.push(csvCountryNames);
+                if (csvCountries[csvIndex]["country"] == country) {
+                    return( `${csvCountries[csvIndex]["country"]}`);
+                }; 
+            };
+        };
+        // Testing Circle Function with Deaths -- END 
 
         // Grabbing Country Names from GeoJson --success
         var countriesGeoJson = []
@@ -189,22 +213,102 @@ d3.json(link, function(geoData) {
         // console.log(csvCountries[0])
         // -------------------------------------------------------
 
-        // Trying to combine the country names and csv country names together
-        // console.log(csvCountries);
-        // -------------------------------------------------------
-
-        // Leaflet Stuff Turning Colors and Making On Features
+       
+        var d2000 = L.layerGroup();
         L.geoJson(geoData, {
             style: function(feature) {
                 return{
                     color: "white",
                     // fillColor: chooseColor(feature.properties.ADMIN),
-                    fillColor: getColor(gdpColor(feature.properties.ADMIN)),
+                    fillColor: getColor(gdpColor(year2000, feature.properties.ADMIN)),
+                    fillOpacity: 0.5,
+                    weight: 1.5
+                };
+            },
+            // pointToLayer: function(feature, [lat,lon]) {
+            //     if ((feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') && matchedNames(year2000, feature.properties.ADMIN)) {
+            //         console.log('Polygon detected');
+            //         var centroid = turf.centroid(feature);
+            //         var lon = centroid.geometry.coordinates[0];
+            //         var lat = centroid.geometry.coordinates[1];
+            //         // L.circleMarker([lat,lon]).bindTooltip(`${matchedNames(year2000, feature.properties.ADMIN)}`).addTo(d2000);
+            //         L.circleMarker([lat,lon], {
+            //             color: 'black'
+            //         }).addTo(d2000);
+            //     };
+            // },
+            onEachFeature: function(feature, layer) {
+                if ((feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') && matchedNames(year2000, feature.properties.ADMIN)) {
+                    console.log('Polygon detected');
+                    var centroid = turf.centroid(feature);
+                    var lon = centroid.geometry.coordinates[0];
+                    var lat = centroid.geometry.coordinates[1];
+                    L.circleMarker([lat,lon], {
+                        // color: 'white',
+                        // color: getColor(totalDeaths(data2000, feature.properties.ADMIN)),
+                        color: deathsColor(totalDeaths(year2000, feature.properties.ADMIN)),
+                        fillOpacity: .5
+                    }).bindTooltip(`Country: ${giveName(year2000, feature.properties.ADMIN)} \n
+                                                           Deaths:${totalDeaths(year2000, feature.properties.ADMIN)}`).addTo(d2000);
+                    // L.circleMarker([lat,lon], {
+                    //     color: 'black',
+                    //     // radius: `${(totalDeaths(year2000, feature.properties.ADMIN)/200)}`
+                    //     // radius: `${Math.pow(totalDeaths(year2000, feature.properties.ADMIN, 2))}`
+                    // }).addTo(d2000);
+                };
+                layer.on({
+                    mouseover: function(event) {
+                        layer = event.target;
+                        layer.setStyle({
+                            fillOpacity: 0.9
+                        });
+                    },
+                    mouseout: function(event) {
+                        layer = event.target;
+                        layer.setStyle({
+                            fillOpacity: 0.5
+                        });
+                    },
+                    click: function(event) {
+                        map.fitBounds(event.target.getBounds());
+                    }
+                });
+
+                layer.bindPopup(matchedNames(year2000, feature.properties.ADMIN));
+                // L.circle([50.5, 30.5], {
+                //     radius: 500,
+                //     color: 'blue',
+                //     fillColor: 'blue'
+                // });
+            }
+        }).addTo(d2000);
+
+        // put l.geo in here and add to d2008
+        var d2008 = L.layerGroup();
+        L.geoJson(geoData, {
+            style: function(feature) {
+                return{
+                    color: "white",
+                    // fillColor: chooseColor(feature.properties.ADMIN),
+                    fillColor: getColor(gdpColor(year2008, feature.properties.ADMIN)),
                     fillOpacity: 0.5,
                     weight: 1.5
                 };
             },
             onEachFeature: function(feature, layer) {
+                if ((feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') && matchedNames(year2008, feature.properties.ADMIN)) {
+                    console.log('Polygon detected');
+                    var centroid = turf.centroid(feature);
+                    var lon = centroid.geometry.coordinates[0];
+                    var lat = centroid.geometry.coordinates[1];
+                    L.circleMarker([lat,lon], {
+                        // color: 'white',
+                        // color: getColor(totalDeaths(data2000, feature.properties.ADMIN)),
+                        color: deathsColor(totalDeaths(year2008, feature.properties.ADMIN)),
+                        fillOpacity: .5
+                    }).bindTooltip(`Country: ${giveName(year2008, feature.properties.ADMIN)} \n
+                                                           Deaths:${totalDeaths(year2008, feature.properties.ADMIN)}`).addTo(d2008);
+                }
                 layer.on({
                     mouseover: function(event) {
                         layer = event.target;
@@ -223,7 +327,7 @@ d3.json(link, function(geoData) {
                     }
                 });
                 // layer.bindPopup("<h1>" + feature.properties.ISO_A3 + "</h1> <hr> <h2>" + feature.properties.ADMIN + "</h2>");
-                layer.bindPopup(matchedNames(feature.properties.ADMIN));
+                layer.bindPopup(matchedNames(year2008, feature.properties.ADMIN));
                 // This above is trying to do the function that will return data based on 
                 // function in here for bindpop that will take in the
                 // create a function in here that pulls a name of a country
@@ -231,19 +335,134 @@ d3.json(link, function(geoData) {
                 // im on argentina, now send that country name to the function that loops through csv/flask data and constructs
                 // html based on data that wants to be displayed 
             }
-        }).addTo(map);
+        }).addTo(d2008);
 
+        // put l.get in here and add to d2017
+        var d2017 = L.layerGroup();
+        L.geoJson(geoData, {
+            style: function(feature) {
+                return{
+                    color: "white",
+                    // fillColor: chooseColor(feature.properties.ADMIN),
+                    fillColor: getColor(gdpColor(year2017, feature.properties.ADMIN)),
+                    fillOpacity: 0.5,
+                    weight: 1.5
+                };
+            },
+            onEachFeature: function(feature, layer) {
+                if ((feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') && matchedNames(year2017, feature.properties.ADMIN)) {
+                    console.log('Polygon detected');
+                    var centroid = turf.centroid(feature);
+                    var lon = centroid.geometry.coordinates[0];
+                    var lat = centroid.geometry.coordinates[1];
+                    L.circleMarker([lat,lon], {
+                        // color: 'white',
+                        // color: getColor(totalDeaths(data2000, feature.properties.ADMIN)),
+                        color: deathsColor(totalDeaths(year2017, feature.properties.ADMIN)),
+                        fillOpacity: .5
+                    }).bindTooltip(`Country: ${giveName(year2017, feature.properties.ADMIN)} \n
+                                                           Deaths:${totalDeaths(year2017, feature.properties.ADMIN)}`).addTo(d2017);
+                }
+                layer.on({
+                    mouseover: function(event) {
+                        layer = event.target;
+                        layer.setStyle({
+                            fillOpacity: 0.9
+                        });
+                    },
+                    mouseout: function(event) {
+                        layer = event.target;
+                        layer.setStyle({
+                            fillOpacity: 0.5
+                        });
+                    },
+                    click: function(event) {
+                        map.fitBounds(event.target.getBounds());
+                    }
+                });
+                // layer.bindPopup("<h1>" + feature.properties.ISO_A3 + "</h1> <hr> <h2>" + feature.properties.ADMIN + "</h2>");
+                layer.bindPopup(matchedNames(year2017, feature.properties.ADMIN));
+                // This above is trying to do the function that will return data based on 
+                // function in here for bindpop that will take in the
+                // create a function in here that pulls a name of a country
+                // that function
+                // im on argentina, now send that country name to the function that loops through csv/flask data and constructs
+                // html based on data that wants to be displayed 
+            }
+        }).addTo(d2017);
+
+
+        var map = L.map("map", {
+            center: [0, 0],
+            zoom: 3,
+            // layers: [base2000, map2008, map2017]
+            layers: [base2000]
+        });
+        // put l.get in here and add to d2017
+        var overlays = {
+            "Data From 2000": d2000,
+            "Data From 2008": d2008,
+            "Data From 2017": d2017
+        };
+        L.control.layers(null, overlays).addTo(map);
+        
+        // Just a test circle
+        // L.circle([50.5, 30.5], {
+        //     radius: 100000,
+        //     color: 'blue',
+        //     fillColor: 'blue'
+        // }).addTo(map);
+
+        // Add Legend -- start
+        var legend = L.control({position: 'topleft'});
+        legend.onAdd = function (map) {
+      
+          var div = L.DomUtil.create('div', 'info legend'),
+            categories = [0, 500, 1000, 2500, 5000, 8000, 10000, 20000, 25000, 50000],
+            labels = ['<strong>GDP</strong>'],
+            from, 
+            to; 
+              
+          for (var i = 0; i < categories.length; i++) {
+            from = categories [i];
+            to = categories[i+1];
+      
+          labels.push(
+            '<i style="background:' + getColor(from + 1) + '"></i> ' +
+              from + (to ? '&ndash;' + to : '+'));
+              }
+              div.innerHTML = labels.join('<br>');
+              return div;
+          };
+          legend.addTo(map);
+        // Add Legend -- end  
+
+        // Add Second Legend Start 
+        var legend2 = L.control({position: 'bottomleft'});
+        legend2.onAdd = function (map) {
+      
+          var div = L.DomUtil.create('div', 'info legend'),
+            categories = [0, 50, 100, 500, 2500, 5000, 10000, 20000],
+            labels = ['<strong>Total Deaths as Circles</strong>'],
+            from, 
+            to; 
+              
+          for (var i = 0; i < categories.length; i++) {
+            from = categories [i];
+            to = categories[i+1];
+      
+          labels.push(
+            '<i style="background:' + deathsColor(from + 1) + '"></i> ' +
+              from + (to ? '&ndash;' + to : '+'));
+              }
+              div.innerHTML = labels.join('<br>');
+              return div;
+          };
+          legend2.addTo(map);
+        // Add Second Legend End 
+        
     });
 });
 
-var mapLayers = {
-    "Year 2000": base2000,
-    "Year2008": map2008,
-    "Year 2017": map2017
-};
-var map = L.map("map", {
-    center: [0, 0],
-    zoom: 3,
-    layers: [base2000, map2008, map2017]
-});
-L.control.layers(mapLayers).addTo(map);
+
+

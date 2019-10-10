@@ -1,7 +1,7 @@
 
- # **Project 3**       **The Malaria Project **   
+ # The Malaria Project
  
- Our inspiration for this project was the video Inside Bill's Brain: Decoding Bill Gates   
+Our inspiration for this project was the Netflix documentary series **Inside Bill's Brain: Decoding Bill Gates**   
  (https://youtu.be/aCv29JKmHNY)
 
 
